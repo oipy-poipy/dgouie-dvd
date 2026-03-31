@@ -16,6 +16,12 @@ let dvd_pos = { x: 0, y: 0 };
 let dvd2_pos = { x: 0, y: 0 };
 let dvd3_pos = { x: 0, y: 0 };
 let last_frame_time = 0;
+let frame_accumulator = 0;
+
+const TARGET_FPS = 60;
+const FRAME_TIME_MS = 1000 / TARGET_FPS;
+const MAX_CATCH_UP_STEPS = 5;
+const FIXED_STEP = FRAME_TIME_MS / 5;
 
 let dvd_size = { width: 0, height: 0 };
 let dvd2_size = { width: 0, height: 0 };
@@ -240,27 +246,35 @@ function move_sprite(element, position, size, velocityX, velocityY, step) {
 function frame(timestamp) {
     if (!last_frame_time) {
         last_frame_time = timestamp;
+        requestAnimationFrame(frame);
+        return;
     }
 
     let delta = timestamp - last_frame_time;
     last_frame_time = timestamp;
-    let step = Math.min(delta / 5, 6);
+    frame_accumulator = frame_accumulator + Math.min(delta, FRAME_TIME_MS * MAX_CATCH_UP_STEPS);
 
-    update_colour(step);
+    let updates = 0;
+    while (frame_accumulator >= FRAME_TIME_MS && updates < MAX_CATCH_UP_STEPS) {
+        update_colour(FIXED_STEP);
 
-    let dvd_velocity = move_sprite(dvd, dvd_pos, dvd_size, x_inc, y_inc, step);
-    x_inc = dvd_velocity.velocityX;
-    y_inc = dvd_velocity.velocityY;
+        let dvd_velocity = move_sprite(dvd, dvd_pos, dvd_size, x_inc, y_inc, FIXED_STEP);
+        x_inc = dvd_velocity.velocityX;
+        y_inc = dvd_velocity.velocityY;
 
-    if(click_counter >= dvd2_click){
-        let dvd2_velocity = move_sprite(dvd2, dvd2_pos, dvd2_size, x2_inc, y2_inc, step);
-        x2_inc = dvd2_velocity.velocityX;
-        y2_inc = dvd2_velocity.velocityY;
-    }
-    if(click_counter >= dvd3_click){
-        let dvd3_velocity = move_sprite(dvd3, dvd3_pos, dvd3_size, x3_inc, y3_inc, step);
-        x3_inc = dvd3_velocity.velocityX;
-        y3_inc = dvd3_velocity.velocityY;
+        if(click_counter >= dvd2_click){
+            let dvd2_velocity = move_sprite(dvd2, dvd2_pos, dvd2_size, x2_inc, y2_inc, FIXED_STEP);
+            x2_inc = dvd2_velocity.velocityX;
+            y2_inc = dvd2_velocity.velocityY;
+        }
+        if(click_counter >= dvd3_click){
+            let dvd3_velocity = move_sprite(dvd3, dvd3_pos, dvd3_size, x3_inc, y3_inc, FIXED_STEP);
+            x3_inc = dvd3_velocity.velocityX;
+            y3_inc = dvd3_velocity.velocityY;
+        }
+
+        frame_accumulator = frame_accumulator - FRAME_TIME_MS;
+        updates++;
     }
 
     requestAnimationFrame(frame);
