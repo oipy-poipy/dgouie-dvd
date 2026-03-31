@@ -12,11 +12,66 @@ let y2_inc = 4;
 let x3_inc = 6;
 let y3_inc = 6;
 
+let dvd_pos = { x: 0, y: 0 };
+let dvd2_pos = { x: 0, y: 0 };
+let dvd3_pos = { x: 0, y: 0 };
+let last_frame_time = 0;
+
+let dvd_size = { width: 0, height: 0 };
+let dvd2_size = { width: 0, height: 0 };
+let dvd3_size = { width: 0, height: 0 };
+
 let colour = 0;
 let click_counter = 0;
 
 let dvd2_click = 10;
 let dvd3_click = 20;
+
+let audio_toggle_icon_ids = {
+    femtanylplayer: 'femtanyl-toggle-icon',
+    trainplayer: 'train-toggle-icon'
+};
+
+function set_audio_toggle_icon(playerId) {
+    let player = document.getElementById(playerId);
+    let iconId = audio_toggle_icon_ids[playerId];
+    let icon = document.getElementById(iconId);
+
+    if (!player || !icon) {
+        return;
+    }
+
+    icon.src = player.paused ? './assets/player/play.png' : './assets/player/pause.png';
+}
+
+function toggle_audio(playerId) {
+    let player = document.getElementById(playerId);
+
+    if (!player) {
+        return;
+    }
+
+    if (player.paused) {
+        player.play();
+    }
+    else {
+        player.pause();
+    }
+}
+
+function init_audio_toggle(playerId) {
+    let player = document.getElementById(playerId);
+
+    if (!player) {
+        return;
+    }
+
+    player.addEventListener('play', () => set_audio_toggle_icon(playerId));
+    player.addEventListener('pause', () => set_audio_toggle_icon(playerId));
+    player.addEventListener('ended', () => set_audio_toggle_icon(playerId));
+
+    set_audio_toggle_icon(playerId);
+}
 
 function init_player_progress(playerId, progressId) {
     let player = document.getElementById(playerId);
@@ -83,105 +138,132 @@ function init() {
 
     dvd.style.position = 'absolute';
     dvd.style.zIndex = 10;
+    dvd.style.top = '0px';
+    dvd.style.left = '0px';
+    dvd.style.willChange = 'transform, filter';
 
     dvd2.style.position = 'absolute';
     dvd2.style.zIndex = 10;
-    dvd2.style.left = (window.innerWidth - 300) + "px";
+    dvd2.style.top = '0px';
+    dvd2.style.left = '0px';
+    dvd2.style.willChange = 'transform';
 
     dvd3.style.position = 'absolute';
     dvd3.style.zIndex = 10;
-    dvd3.style.top = (window.innerHeight - 201) + "px";
+    dvd3.style.left = '0px';
+    dvd3.style.top = '0px';
+    dvd3.style.willChange = 'transform';
 
-    setInterval(frame, 5);
+    refresh_sprite_sizes();
+
+    dvd_pos.x = 0;
+    dvd_pos.y = 0;
+
+    dvd2_pos.x = Math.max(window.innerWidth - dvd2_size.width, 0);
+    dvd2_pos.y = 0;
+
+    dvd3_pos.x = 0;
+    dvd3_pos.y = Math.max(window.innerHeight - dvd3_size.height, 0);
+
+    apply_position(dvd, dvd_pos);
+    apply_position(dvd2, dvd2_pos);
+    apply_position(dvd3, dvd3_pos);
+
+    requestAnimationFrame(frame);
 
 }
 
-function update_colour(){
+function update_colour(step){
     if (colour >= 360){
         colour = 0;
     }
     dvd.style.filter = `hue-rotate(${colour}deg)`;
     document.body.style.color = `hsl(${colour}, 100%, 50%)`;
-    colour++;
-    colour++;
+    colour = colour + (2 * step);
 }
 
-function handle_collision() {
-
-    let dvd_height = dvd.offsetHeight;
-    let dvd_width = dvd.offsetWidth;
-    let dvd_top = dvd.offsetTop;
-    let dvd_left = dvd.offsetLeft;
-    let win_height = window.innerHeight;
-    let win_width = window.innerWidth;
-
-    if (dvd_left <= 0 || dvd_left + dvd_width >= win_width) {
-        x_inc = ~x_inc + 1;
-    }
-
-    if (dvd_top <= 0 || dvd_top + dvd_height >= win_height) {
-        y_inc = ~y_inc + 1;
-    }
-
+function apply_position(element, position) {
+    element.style.transform = `translate(${position.x}px, ${position.y}px)`;
 }
 
-function handle_collision2() {
+function refresh_sprite_sizes() {
+    let dvd_rect = dvd.getBoundingClientRect();
+    let dvd2_rect = dvd2.getBoundingClientRect();
+    let dvd3_rect = dvd3.getBoundingClientRect();
 
-    let dvd_height = dvd2.offsetHeight;
-    let dvd_width = dvd2.offsetWidth;
-    let dvd_top = dvd2.offsetTop;
-    let dvd_left = dvd2.offsetLeft;
-    let win_height = window.innerHeight;
-    let win_width = window.innerWidth;
+    dvd_size.width = dvd_rect.width;
+    dvd_size.height = dvd_rect.height;
 
-    if (dvd_left <= 0 || dvd_left + dvd_width >= win_width) {
-        x2_inc = ~x2_inc + 1;
-    }
+    dvd2_size.width = dvd2_rect.width;
+    dvd2_size.height = dvd2_rect.height;
 
-    if (dvd_top <= 0 || dvd_top + dvd_height >= win_height) {
-        y2_inc = ~y2_inc + 1;
-    }
-
+    dvd3_size.width = dvd3_rect.width;
+    dvd3_size.height = dvd3_rect.height;
 }
 
-function handle_collision3() {
+function move_sprite(element, position, size, velocityX, velocityY, step) {
+    let width = size.width;
+    let height = size.height;
+    let maxX = Math.max(window.innerWidth - width, 0);
+    let maxY = Math.max(window.innerHeight - height, 0);
 
-    let dvd_height = dvd3.offsetHeight;
-    let dvd_width = dvd3.offsetWidth;
-    let dvd_top = dvd3.offsetTop;
-    let dvd_left = dvd3.offsetLeft;
-    let win_height = window.innerHeight;
-    let win_width = window.innerWidth;
+    position.x = position.x + (velocityX * step);
+    position.y = position.y + (velocityY * step);
 
-    if (dvd_left <= 0 || dvd_left + dvd_width >= win_width) {
-        x3_inc = ~x3_inc + 1;
+    if (width > 0) {
+        if (position.x <= 0 && velocityX < 0) {
+            position.x = 0;
+            velocityX = ~velocityX + 1;
+        }
+        else if (position.x >= maxX && velocityX > 0) {
+            position.x = maxX;
+            velocityX = ~velocityX + 1;
+        }
     }
 
-    if (dvd_top <= 0 || dvd_top + dvd_height >= win_height) {
-        y3_inc = ~y3_inc + 1;
+    if (height > 0) {
+        if (position.y <= 0 && velocityY < 0) {
+            position.y = 0;
+            velocityY = ~velocityY + 1;
+        }
+        else if (position.y >= maxY && velocityY > 0) {
+            position.y = maxY;
+            velocityY = ~velocityY + 1;
+        }
     }
 
+    apply_position(element, position);
+
+    return { velocityX, velocityY };
 }
 
-function frame() {
+function frame(timestamp) {
+    if (!last_frame_time) {
+        last_frame_time = timestamp;
+    }
 
-    handle_collision();
+    let delta = timestamp - last_frame_time;
+    last_frame_time = timestamp;
+    let step = Math.min(delta / 5, 6);
 
-    update_colour();
-    dvd.style.top = dvd.offsetTop + y_inc;
-    dvd.style.left = dvd.offsetLeft + x_inc;
+    update_colour(step);
+
+    let dvd_velocity = move_sprite(dvd, dvd_pos, dvd_size, x_inc, y_inc, step);
+    x_inc = dvd_velocity.velocityX;
+    y_inc = dvd_velocity.velocityY;
 
     if(click_counter >= dvd2_click){
-        handle_collision2();
-        dvd2.style.top = dvd2.offsetTop + y2_inc;
-        dvd2.style.left = dvd2.offsetLeft + x2_inc;
+        let dvd2_velocity = move_sprite(dvd2, dvd2_pos, dvd2_size, x2_inc, y2_inc, step);
+        x2_inc = dvd2_velocity.velocityX;
+        y2_inc = dvd2_velocity.velocityY;
     }
     if(click_counter >= dvd3_click){
-        handle_collision3();
-        dvd3.style.top = dvd3.offsetTop + y3_inc;
-        dvd3.style.left = dvd3.offsetLeft + x3_inc;
+        let dvd3_velocity = move_sprite(dvd3, dvd3_pos, dvd3_size, x3_inc, y3_inc, step);
+        x3_inc = dvd3_velocity.velocityX;
+        y3_inc = dvd3_velocity.velocityY;
     }
 
+    requestAnimationFrame(frame);
 }
 
 function pick_image(){
@@ -193,9 +275,11 @@ function pick_image(){
     click_counter++;
     if(click_counter == dvd2_click){
         dvd2.style.display = "block";
+        refresh_sprite_sizes();
     }
     if(click_counter == dvd3_click){
         dvd3.style.display = "block";
+        refresh_sprite_sizes();
     }
 
     let img_num = Math.floor(Math.random() * 4) + 1;
@@ -227,11 +311,14 @@ function pick_image(){
 dvd.addEventListener('click', pick_image);
 dvd2.addEventListener('click', pick_image);
 dvd3.addEventListener('click', pick_image);
+window.addEventListener('resize', refresh_sprite_sizes);
 
 init();
 document.addEventListener('DOMContentLoaded', () => {
     init_server_temp();
     setInterval(init_server_temp, 30000);
+    init_audio_toggle('femtanylplayer');
+    init_audio_toggle('trainplayer');
     init_player_progress('femtanylplayer', 'femtanyl-progress');
     init_player_progress('trainplayer', 'train-progress');
 } );

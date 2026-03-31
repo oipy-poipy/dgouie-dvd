@@ -136,9 +136,62 @@ body {
 .player-button {
     background: none;
     border: none;
+    transition: transform 80ms ease;
 }
 
 .player-button, .player-button img {
     height: 60px;
     width: 60px;
+}
+
+.player-button:active {
+    transform: scale(0.88);
+}
+
+@media (max-width: 900px), (max-height: 700px) {
+    #dvd img {
+        width: 180px;
+        height: auto;
+    }
+
+    #dvd2 img, #dvd3 img {
+        height: 140px;
+    }
+
+    #err-container img {
+        height: 110px;
+    }
+
+    .player {
+        font-size: 22px;
+    }
+
+    .player-button, .player-button img {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+@media (max-width: 600px), (max-height: 500px) {
+    #dvd img {
+        width: 140px;
+        height: auto;
+    }
+
+    #dvd2 img, #dvd3 img {
+        height: 100px;
+    }
+
+    #err-container img {
+        height: 80px;
+    }
+
+    .player-progress > input {
+        width: min(250px, 60vw);
+    }
+
+    .player-button, .player-button img {
+        height: 42px;
+        width: 42px;
+    }
 }
