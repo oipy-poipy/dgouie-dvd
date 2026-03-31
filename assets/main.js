@@ -28,6 +28,7 @@ function init_player_progress(playerId, progressId) {
 
     function update_progress() {
         let duration = Number.isFinite(player.duration) ? player.duration : 0;
+        let currentTime = Number.isFinite(player.currentTime) ? player.currentTime : 0;
 
         progress.max = duration > 0 ? duration : 100;
         progress.value = duration > 0 ? currentTime : 0;
@@ -46,6 +47,36 @@ function init_player_progress(playerId, progressId) {
     });
 
     update_progress();
+}
+
+async function init_server_temp() {
+    let serverTemp = document.getElementById('server-temp');
+
+    if (!serverTemp) {
+        return;
+    }
+
+    serverTemp.textContent = '...';
+
+    try {
+        let response = await fetch('https://api.ouppy.space/server');
+        if (!response.ok) {
+            throw new Error('Failed to fetch server temp');
+        }
+
+        let data = await response.json();
+        let temp = Number(data.temp);
+
+        if (Number.isFinite(temp)) {
+            serverTemp.textContent = temp.toFixed(1);
+            return;
+        }
+
+        serverTemp.textContent = '--';
+    }
+    catch {
+        serverTemp.textContent = '--';
+    }
 }
 
 function init() {
@@ -199,6 +230,7 @@ dvd3.addEventListener('click', pick_image);
 
 init();
 document.addEventListener('DOMContentLoaded', () => {
+    init_server_temp();
     init_player_progress('femtanylplayer', 'femtanyl-progress');
     init_player_progress('trainplayer', 'train-progress');
 } );
