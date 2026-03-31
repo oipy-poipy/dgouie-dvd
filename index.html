@@ -1,70 +1,101 @@
 <html>
     <head>
-        <title>A space for all ouppies!</title>
-        <link rel="icon" type="image/x-icon" href="./animegirl.gif">
-        <style>
-            #dvd img, #dvd2 img, #dvd3 img, #err-container img {
-                pointer-events: none;
-                -webkit-user-drag: none;
-                user-select: none;
-                -moz-user-select: none;
-                -webkit-user-select: none;
-                -ms-user-select: none;
-            }
+        <title>OIPY</title>
+        <link rel="icon" type="image/x-icon" href="./assets/animegirl.gif">
+        <link rel="stylesheet" href="./assets/css/main.css">
+        <link rel="stylesheet" href="./assets/css/fonts.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            #dvd2, #dvd3 {
-                display: none;
-            }
-
-            #dvd2 img, #dvd3 img {
-                height: 200px;
-            }
-
-            #dvd, #dvd2, #dvd3 {
-                cursor: grabbing;
-            }
-
-            html, body {
-                overflow:hidden;
-            }
-
-            body {
-                background-image: url('./winground.jpg');
-                background-repeat: no-repeat;
-                background-attachment: fixed;  
-                background-size: cover;
-            }
-
-            #err-container img {
-                height: 150px;
-                position: absolute;
-            }
-
-        </style>
+        <meta name="title" content="oUPUYI">
+        <meta name="description" content="sasa">
+        <meta name="keywords" content="sasa was here, hello">
+        <meta name="robots" content="noindex, nofollow">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="language" content="Portuguese">
+        <meta name="revisit-after" content="1 days">
+        <meta name="author" content="sasa">
     </head>
 
     <body>
         <div id="err-container"></div>
-        
-        <!--
-        <div id="err1"><img src="./err1.jpg"></div>
-        <div id="err2"><img src="./err2.png"></div>
-        <div id="err3"><img src="./err3.png"></div>
-        <div id="err4"><img src="./err4.png"></div>
-        -->
 
         <div id="dvd">
-            <img src="./dgouie.png" draggable="false">
+            <img src="./assets/dgouie.png" draggable="false">
         </div>
 
         <div id="dvd2">
-            <img src="./maxrot.gif" draggable="false">
+            <img src="./assets/maxrot.gif" draggable="false">
         </div>
 
         <div id="dvd3">
-            <img src="./reispin.gif" draggable="false">
+            <img src="./assets/reispin.gif" draggable="false">
         </div>
         
-        <script src="./main.js" charset="utf-8"></script>
+        <script src="./assets/main.js" charset="utf-8"></script>
+
+        <!--  ---  -->
+
+        <div id="text">
+            <p>
+                <span style="font-weight: bold; font-size: 40px">da</span>gouie,,,,,,,<br>
+                ૮・ﻌ・ა
+            </p>
+
+            <p>
+                <a style="color: unset" href="mailto:bowl@ouppy.space">oipy mail</a>
+            </p>
+
+            <div class="player">
+                <img
+                    src="./assets/player/dog.png"
+                    height="100"
+                >
+
+                <audio id="femtanylplayer" src="./assets/FEMTANYL.mp3"></audio>
+                <div class="player-progress">
+                    <input id="femtanyl-progress" type="range" min="0" max="100" value="0" step="0.1">
+                </div>
+                <div> 
+                    <button onclick="document.getElementById('femtanylplayer').play()" class="player-button">
+                        <img src="./assets/player/play.png">
+                    </button>
+                    <button onclick="document.getElementById('femtanylplayer').pause()" class="player-button">
+                        <img src="./assets/player/pause.png">
+                    </button>
+                    <button onclick="document.getElementById('femtanylplayer').volume += 0.1" class="player-button">
+                        <img src="./assets/player/volup.png">
+                    </button>
+                    <button onclick="document.getElementById('femtanylplayer').volume -= 0.1" class="player-button">
+                        <img src="./assets/player/voldown.png">
+                    </button>
+                </div>
+            </div>
+
+            <div class="player">
+                <img
+                    src="./assets/player/train.png"
+                    width="300"
+                >
+
+                <audio id="trainplayer" src="./assets/TRAIN.mp3"></audio>
+                <div class="player-progress">
+                    <input id="train-progress" type="range" min="0" max="100" value="0" step="0.1">
+                </div>
+                <div> 
+                    <button onclick="document.getElementById('trainplayer').play()" class="player-button">
+                        <img src="./assets/player/play.png">
+                    </button>
+                    <button onclick="document.getElementById('trainplayer').pause()" class="player-button">
+                        <img src="./assets/player/pause.png">
+                    </button>
+                    <button onclick="document.getElementById('trainplayer').volume += 0.1" class="player-button">
+                        <img src="./assets/player/volup.png">
+                    </button>
+                    <button onclick="document.getElementById('trainplayer').volume -= 0.1" class="player-button">
+                        <img src="./assets/player/voldown.png">
+                    </button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

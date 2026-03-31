@@ -1,0 +1,144 @@
+#dvd img, #dvd2 img, #dvd3 img, #err-container img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#dvd {
+    z-index: 999;
+    display: block;
+}
+
+#dvd2, #dvd3 {
+    display: none;
+}
+
+#dvd2 img, #dvd3 img {
+    height: 200px;
+}
+
+#dvd, #dvd2, #dvd3 {
+    cursor: grabbing;
+}
+
+html {
+    background: black;
+}
+
+html, body {
+    overflow: hidden;
+    font-family: 'Jersey 10', sans-serif;
+    font-size: 35px;
+    line-height: 40px;
+}
+
+body {
+    background-image: url('../winground.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+    background-size: cover;
+    border-radius: 26.7px;
+    margin: 8px;
+    height: calc(100vh - 15px);
+}
+
+#err-container img {
+    height: 150px;
+    position: absolute;
+}
+
+#text {
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#text p {
+    padding: 0;
+    margin: 0;
+}
+
+.player {
+    font-size:25px;
+    margin-top:20px;
+    border: 1px solid red;
+    padding: 10px;
+    border-radius: 10px;
+    background: #ff000020;
+}
+
+.player-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+}
+
+.player-progress > input {
+    width: 320px;
+    height: 28px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.player-progress > input::-webkit-slider-runnable-track {
+    height: 14px;
+    border-radius: 999px;
+    background-image: url('../player/bar.png');
+    background-size: 100px 14px;
+    background-repeat: repeat;
+}
+
+.player-progress > input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    margin-top: -8px;
+    border-radius: 50%;
+    border: none;
+    background-image: url('../player/ball.png');
+    background-color: transparent;
+    background-size: cover;
+    background-position: center;
+}
+
+.player-progress > input::-moz-range-track {
+    height: 14px;
+    border-radius: 999px;
+    background-image: url('../player/bar.png');
+    background-size: 100px 14px;
+    background-repeat: repeat;
+}
+
+.player-progress > input::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background-image: url('../player/ball.png');
+    background-color: transparent;
+    background-size: cover;
+    background-position: center;
+}
+
+.player-button {
+    background: none;
+    border: none;
+}
+
+.player-button, .player-button img {
+    height: 60px;
+    width: 60px;
+}
