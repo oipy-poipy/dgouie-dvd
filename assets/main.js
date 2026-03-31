@@ -231,6 +231,7 @@ dvd3.addEventListener('click', pick_image);
 init();
 document.addEventListener('DOMContentLoaded', () => {
     init_server_temp();
+    setInterval(init_server_temp, 30000);
     init_player_progress('femtanylplayer', 'femtanyl-progress');
     init_player_progress('trainplayer', 'train-progress');
 } );
