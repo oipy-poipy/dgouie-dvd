@@ -33,6 +33,9 @@ html, body {
     font-family: 'Jersey 10', sans-serif;
     font-size: 35px;
     line-height: 40px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 body {
@@ -218,6 +221,15 @@ body.femtanyl-shaking .player {
     will-change: transform, filter;
 }
 
+body.femtanyl-shaking #music-group,
+body.femtanyl-shaking #music-group .player,
+body.femtanyl-shaking #music-group button,
+body.femtanyl-shaking #music-group input,
+body.femtanyl-shaking #music-group a {
+    animation: none !important;
+    transform: none !important;
+}
+
 body.femtanyl-shaking #dvd,
 body.femtanyl-shaking #dvd2,
 body.femtanyl-shaking #dvd3 {
@@ -335,11 +347,30 @@ body.femtanyl-shaking #dvd3 img {
     background: none;
     border: none;
     transition: transform 80ms ease;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .player-button, .player-button img {
     height: 60px;
     width: 60px;
+}
+
+.player-button img {
+    pointer-events: none;
+}
+
+.player-progress > input,
+.player-progress > input::-webkit-slider-thumb,
+.player-progress > input::-moz-range-thumb,
+a,
+button,
+input {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .player-button:active {
