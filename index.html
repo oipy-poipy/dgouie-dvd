@@ -36,59 +36,65 @@
         <!--  ---  -->
 
         <div id="text">
-            <p>
-                <span style="font-weight: bold; font-size: 40px">da</span>gouie,,,,,,,<br>
-                ૮・ﻌ・ა
-            </p>
+            <div id="top-text-group">
+                <p>
+                    <span style="font-weight: bold; font-size: 40px">da</span>gouie,,,,,,,<br>
+                    ૮・ﻌ・ა
+                </p>
 
-            <p>
-                <a style="color: unset" href="mailto:bowl@ouppy.space">oipy mail</a><br>
-                the oipy room is at <span id="server-temp"></span> C rn
-            </p>
-
-            <div class="player">
-                <img
-                    src="./assets/player/dog.png"
-                    height="100"
-                >
-
-                <audio id="femtanylplayer" src="./assets/FEMTANYL.mp3"></audio>
-                <div class="player-progress">
-                    <input id="femtanyl-progress" type="range" min="0" max="100" value="0" step="0.1">
-                </div>
-                <div> 
-                    <button onclick="toggle_audio('femtanylplayer')" class="player-button">
-                        <img id="femtanyl-toggle-icon" src="./assets/player/play.png">
-                    </button>
-                    <button onclick="document.getElementById('femtanylplayer').volume += 0.1" class="player-button">
-                        <img src="./assets/player/volup.png">
-                    </button>
-                    <button onclick="document.getElementById('femtanylplayer').volume -= 0.1" class="player-button">
-                        <img src="./assets/player/voldown.png">
-                    </button>
-                </div>
+                <p>
+                    <a style="color: unset" href="mailto:bowl@ouppy.space">oipy mail</a><br>
+                    the oipy room is at <span id="server-temp"></span> C rn
+                </p>
             </div>
 
-            <div class="player">
-                <img
-                    src="./assets/player/train.png"
-                    width="300"
-                >
+            <div id="music-group">
+                <div class="player">
+                    <img
+                        src="./assets/player/dog.png"
+                        class="sync-hue-image"
+                        height="100"
+                    >
 
-                <audio id="trainplayer" src="./assets/TRAIN.mp3"></audio>
-                <div class="player-progress">
-                    <input id="train-progress" type="range" min="0" max="100" value="0" step="0.1">
+                    <audio id="femtanylplayer" src="./assets/FEMTANYL.mp3"></audio>
+                    <div class="player-progress">
+                        <input id="femtanyl-progress" type="range" min="0" max="100" value="0" step="0.1">
+                    </div>
+                    <div> 
+                        <button onclick="toggle_audio('femtanylplayer')" class="player-button">
+                            <img id="femtanyl-toggle-icon" src="./assets/player/play.png">
+                        </button>
+                        <button onclick="document.getElementById('femtanylplayer').volume += 0.1" class="player-button">
+                            <img src="./assets/player/volup.png">
+                        </button>
+                        <button onclick="document.getElementById('femtanylplayer').volume -= 0.1" class="player-button">
+                            <img src="./assets/player/voldown.png">
+                        </button>
+                    </div>
                 </div>
-                <div> 
-                    <button onclick="toggle_audio('trainplayer')" class="player-button">
-                        <img id="train-toggle-icon" src="./assets/player/play.png">
-                    </button>
-                    <button onclick="document.getElementById('trainplayer').volume += 0.1" class="player-button">
-                        <img src="./assets/player/volup.png">
-                    </button>
-                    <button onclick="document.getElementById('trainplayer').volume -= 0.1" class="player-button">
-                        <img src="./assets/player/voldown.png">
-                    </button>
+
+                <div class="player">
+                    <img
+                        src="./assets/player/train.png"
+                        class="sync-hue-image"
+                        width="300"
+                    >
+
+                    <audio id="trainplayer" src="./assets/TRAIN.mp3"></audio>
+                    <div class="player-progress">
+                        <input id="train-progress" type="range" min="0" max="100" value="0" step="0.1">
+                    </div>
+                    <div> 
+                        <button onclick="toggle_audio('trainplayer')" class="player-button">
+                            <img id="train-toggle-icon" src="./assets/player/play.png">
+                        </button>
+                        <button onclick="document.getElementById('trainplayer').volume += 0.1" class="player-button">
+                            <img src="./assets/player/volup.png">
+                        </button>
+                        <button onclick="document.getElementById('trainplayer').volume -= 0.1" class="player-button">
+                            <img src="./assets/player/voldown.png">
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

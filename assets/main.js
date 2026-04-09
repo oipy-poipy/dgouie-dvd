@@ -32,6 +32,11 @@ let click_counter = 0;
 
 let dvd2_click = 10;
 let dvd3_click = 20;
+let sync_hue_images = [];
+let jitter_letters = [];
+let jitter_active_letters = [];
+
+let top_text_jitter_tick = true;
 
 let audio_toggle_icon_ids = {
     femtanylplayer: 'femtanyl-toggle-icon',
@@ -77,6 +82,35 @@ function init_audio_toggle(playerId) {
     player.addEventListener('ended', () => set_audio_toggle_icon(playerId));
 
     set_audio_toggle_icon(playerId);
+}
+
+function sync_femtanyl_shake() {
+    let femtanylPlayer = document.getElementById('femtanylplayer');
+
+    if (!femtanylPlayer) {
+        return;
+    }
+
+    if (femtanylPlayer.paused) {
+        document.body.classList.remove('femtanyl-shaking');
+    }
+    else {
+        document.body.classList.add('femtanyl-shaking');
+    }
+}
+
+function init_femtanyl_shake() {
+    let femtanylPlayer = document.getElementById('femtanylplayer');
+
+    if (!femtanylPlayer) {
+        return;
+    }
+
+    femtanylPlayer.addEventListener('play', sync_femtanyl_shake);
+    femtanylPlayer.addEventListener('pause', sync_femtanyl_shake);
+    femtanylPlayer.addEventListener('ended', sync_femtanyl_shake);
+
+    sync_femtanyl_shake();
 }
 
 function init_player_progress(playerId, progressId) {
@@ -140,6 +174,98 @@ async function init_server_temp() {
     }
 }
 
+function refresh_sync_hue_images() {
+    sync_hue_images = Array.from(document.querySelectorAll('.sync-hue-image'));
+}
+
+function random_int(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function init_text_jitter() {
+    let textContainer = document.getElementById('text');
+    let topTextGroup = document.getElementById('top-text-group');
+    let musicGroup = document.getElementById('music-group');
+
+    if (!textContainer || !topTextGroup || !musicGroup) {
+        return;
+    }
+
+    let walker = document.createTreeWalker(textContainer, NodeFilter.SHOW_TEXT);
+    let textNodes = [];
+    let currentNode = walker.nextNode();
+
+    while (currentNode) {
+        textNodes.push(currentNode);
+        currentNode = walker.nextNode();
+    }
+
+    for (let textNode of textNodes) {
+        if (!textNode.parentElement || textNode.parentElement.closest('.player-button')) {
+            continue;
+        }
+
+        if (!textNode.textContent || !textNode.textContent.trim()) {
+            continue;
+        }
+
+        let fragment = document.createDocumentFragment();
+        for (let character of textNode.textContent) {
+            if (character.trim() === '') {
+                fragment.appendChild(document.createTextNode(character));
+            }
+            else {
+                let letter = document.createElement('span');
+                letter.className = 'jitter-letter';
+                letter.textContent = character;
+                fragment.appendChild(letter);
+            }
+        }
+
+        textNode.parentNode.replaceChild(fragment, textNode);
+    }
+
+    jitter_letters = Array.from(textContainer.querySelectorAll('.jitter-letter'));
+
+    setInterval(() => {
+        if (jitter_letters.length === 0) {
+            return;
+        }
+
+        for (let letter of jitter_active_letters) {
+            letter.style.fontSize = '100%';
+        }
+
+        jitter_active_letters = [];
+
+        let changes = random_int(1, 2);
+        for (let i = 0; i < changes; i++) {
+            let randomLetter = jitter_letters[random_int(0, jitter_letters.length - 1)];
+            randomLetter.style.fontSize = `${random_int(92, 112)}%`;
+            jitter_active_letters.push(randomLetter);
+        }
+    }, 380);
+
+    setInterval(() => {
+        if (top_text_jitter_tick) {
+            topTextGroup.style.transform = `translate(${random_int(-5, 5)}px, ${random_int(-4, 4)}px)`;
+            topTextGroup.style.padding = `${random_int(0, 5)}px ${random_int(0, 8)}px`;
+
+            musicGroup.style.transform = 'translate(0px, 0px)';
+            musicGroup.style.padding = '0px';
+        }
+        else {
+            musicGroup.style.transform = `translate(${random_int(-6, 6)}px, ${random_int(-5, 5)}px)`;
+            musicGroup.style.padding = `${random_int(0, 6)}px ${random_int(0, 10)}px`;
+
+            topTextGroup.style.transform = 'translate(0px, 0px)';
+            topTextGroup.style.padding = '0px';
+        }
+
+        top_text_jitter_tick = !top_text_jitter_tick;
+    }, 850);
+}
+
 function init() {
 
     dvd.style.position = 'absolute';
@@ -183,8 +309,17 @@ function update_colour(step){
     if (colour >= 360){
         colour = 0;
     }
-    dvd.style.filter = `hue-rotate(${colour}deg)`;
-    document.body.style.color = `hsl(${colour}, 100%, 50%)`;
+    let hue = colour;
+    let syncedVisualFilter = `hue-rotate(${hue}deg)`;
+    let syncedWhiteTintFilter = `brightness(0) saturate(100%) invert(1) sepia(1) saturate(5000%) hue-rotate(${hue}deg)`;
+
+    dvd.style.filter = syncedVisualFilter;
+    document.body.style.color = `hsl(${hue}, 100%, 50%)`;
+
+    for (let image of sync_hue_images) {
+        image.style.filter = syncedWhiteTintFilter;
+    }
+
     colour = colour + (2 * step);
 }
 
@@ -329,8 +464,11 @@ window.addEventListener('resize', refresh_sprite_sizes);
 
 init();
 document.addEventListener('DOMContentLoaded', () => {
+    refresh_sync_hue_images();
+    init_text_jitter();
     init_server_temp();
     setInterval(init_server_temp, 30000);
+    init_femtanyl_shake();
     init_audio_toggle('femtanylplayer');
     init_audio_toggle('trainplayer');
     init_player_progress('femtanylplayer', 'femtanyl-progress');
