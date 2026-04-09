@@ -128,22 +128,22 @@ body {
             drop-shadow(0 0 0 rgba(0, 255, 255, 0));
     }
     25% {
-        transform: translate(-2px, 1px);
+        transform: translate(-15px, 9px);
         filter:
-            drop-shadow(-6px 0 0 rgba(255, 0, 96, 0.8))
-            drop-shadow(5px 0 0 rgba(0, 255, 255, 0.85));
+            drop-shadow(-39px 0 0 rgba(255, 0, 96, 1))
+            drop-shadow(36px 0 0 rgba(0, 255, 255, 1));
     }
     50% {
-        transform: translate(2px, -1px);
+        transform: translate(18px, -12px);
         filter:
-            drop-shadow(7px -1px 0 rgba(255, 0, 96, 0.9))
-            drop-shadow(-6px 1px 0 rgba(0, 255, 255, 0.9));
+            drop-shadow(45px -6px 0 rgba(255, 0, 96, 1))
+            drop-shadow(-39px 6px 0 rgba(0, 255, 255, 1));
     }
     75% {
-        transform: translate(-2px, -1px);
+        transform: translate(-18px, -9px);
         filter:
-            drop-shadow(-7px 1px 0 rgba(255, 0, 96, 0.86))
-            drop-shadow(6px -1px 0 rgba(0, 255, 255, 0.88));
+            drop-shadow(-42px 6px 0 rgba(255, 0, 96, 1))
+            drop-shadow(39px -6px 0 rgba(0, 255, 255, 1));
     }
     100% {
         transform: translate(0, 0);
@@ -185,20 +185,20 @@ body::after {
 
 @keyframes femtanyl-shake {
     0% { transform: translate(0, 0) rotate(0deg); }
-    10% { transform: translate(-12px, 9px) rotate(-2deg); }
-    20% { transform: translate(10px, -11px) rotate(2.2deg); }
-    30% { transform: translate(-14px, -8px) rotate(-2.6deg); }
-    40% { transform: translate(12px, 12px) rotate(2.4deg); }
-    50% { transform: translate(-10px, -12px) rotate(-2deg); }
-    60% { transform: translate(13px, 8px) rotate(2.8deg); }
-    70% { transform: translate(-12px, 11px) rotate(-2.4deg); }
-    80% { transform: translate(11px, -10px) rotate(2deg); }
-    90% { transform: translate(-13px, -9px) rotate(-2.2deg); }
+    10% { transform: translate(-36px, 27px) rotate(-6deg); }
+    20% { transform: translate(30px, -33px) rotate(6.6deg); }
+    30% { transform: translate(-42px, -24px) rotate(-7.8deg); }
+    40% { transform: translate(36px, 36px) rotate(7.2deg); }
+    50% { transform: translate(-30px, -36px) rotate(-6deg); }
+    60% { transform: translate(39px, 24px) rotate(8.4deg); }
+    70% { transform: translate(-36px, 33px) rotate(-7.2deg); }
+    80% { transform: translate(33px, -30px) rotate(6deg); }
+    90% { transform: translate(-39px, -27px) rotate(-6.6deg); }
     100% { transform: translate(0, 0) rotate(0deg); }
 }
 
 body.femtanyl-shaking {
-    animation: femtanyl-shake 42ms steps(1, end) infinite, crt-frame-flicker 90ms steps(2, end) infinite;
+    animation: femtanyl-shake 24ms steps(1, end) infinite, crt-frame-flicker 60ms steps(2, end) infinite;
     will-change: transform;
 }
 
@@ -228,7 +228,7 @@ body.femtanyl-shaking #dvd3 {
 body.femtanyl-shaking #dvd img,
 body.femtanyl-shaking #dvd2 img,
 body.femtanyl-shaking #dvd3 img {
-    animation: rgb-image-split 95ms steps(2, end) infinite;
+    animation: rgb-image-split 52ms steps(2, end) infinite;
     will-change: transform, filter;
 }
 
