@@ -154,7 +154,7 @@ async function init_server_temp() {
     serverTemp.textContent = '...';
 
     try {
-        let response = await fetch('https://api.ouppy.space/server');
+        let response = await fetch('https://servtemp-api.ouppy.space/server');
         if (!response.ok) {
             throw new Error('Failed to fetch server temp');
         }
